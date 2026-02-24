@@ -1,6 +1,6 @@
 # Binary Alchemy
 
-> Version: 0.1 | Created: 2026-02-24
+> Version: 0.2 | Created: 2026-02-24 | Updated: 2026-02-25
 
 ## Purpose
 
@@ -51,11 +51,50 @@ Level 0: 기계어/바이너리  48 89 D8 B8 01 00 00 00 ...
 | 4 | **점진적 빌드**: Phase 순서를 건너뛰지 않음 | 기초 없는 구현 방지 |
 | 5 | **Quick Win 우선**: 기존 도구 활용 → 커스텀 구현 순서 | 빠른 학습 루프 |
 
+## Agents
+
+| Agent | Role | Triggers |
+|-------|------|----------|
+| AGENT_researcher | 논문/도구 서베이, 최신 연구 추적 | 새 주제 탐색, /survey |
+| AGENT_experimenter | 실험 설계/실행/기록 | 모델 추론, /experiment, /roundtrip |
+| AGENT_evaluator | 벤치마크, 비교, 메트릭 | 결과 평가, /benchmark |
+
+> Agent 정의: `_agents/` 디렉토리
+
+## Skills
+
+| ID | Skill | Trigger |
+|----|-------|---------|
+| SKILL-001 | survey | 새 논문/도구/데이터셋 조사 시 |
+| SKILL-002 | experiment | 실험 설계/실행 시 |
+| SKILL-003 | benchmark | 성능 측정/비교 시 |
+| SKILL-004 | round-trip | 전체 생성→렌더링 루프 테스트 시 |
+
+> Skill 정의: `_skills/` 디렉토리
+
+## Slash Commands
+
+| Command | Purpose | Prompt |
+|---------|---------|--------|
+| /survey {topic} | 논문/도구 서베이 → SRV 노트 생성 | _prompts/PROMPT_survey.md |
+| /experiment {name} | 실험 설계 + 코드 스캐폴드 + EXP 노트 | _prompts/PROMPT_experiment.md |
+| /benchmark {target} | 벤치마크 실행 + 비교표 생성 | _prompts/PROMPT_benchmark.md |
+| /roundtrip {intent} | 전체 라운드트립 테스트 | _prompts/PROMPT_roundtrip.md |
+
+## Tools
+
+| Tool | 용도 | 사용법 |
+|------|------|--------|
+| `tools/model_runner.py` | 모델 통합 추론 래퍼 | `--model nova --input "..." --task generate-asm` |
+| `tools/compile_chain.py` | C/ASM→바이너리 자동화 | `--input test.c --output test.elf --dump` |
+| `tools/eval_metrics.py` | 평가 메트릭 계산 | `pass1 --generated out.s --test test.py` |
+| `tools/render_view.py` | 다단계 렌더링 HTML | `--binary gcd.elf --output view.html` |
+
 ## Roadmap
 
 ```
-Phase 0: Survey & Landscape     ← 현재
-Phase 1: Playground (기존 도구 체험)
+Phase 0: Survey & Landscape     ✅ 완료
+Phase 1: Playground (기존 도구 체험)  ← 다음
 Phase 2: Reproduce & Evaluate (논문 재현)
 Phase 3: Pipeline Integration (Python 프로토타입)
 Phase 4: Rust Core Engine (선택)
@@ -67,8 +106,22 @@ Phase 6: Integration & Publication
 
 ```
 binary-alchemy/
-├── CLAUDE.md              # 이 파일
+├── CLAUDE.md              # 이 파일 (규칙, Agent, Skill, Tool 정의)
 ├── README.md
+├── _agents/               # Agent 정의
+│   ├── AGENT_researcher.md
+│   ├── AGENT_experimenter.md
+│   └── AGENT_evaluator.md
+├── _skills/               # Skill 정의
+│   ├── SKILL-001_survey.md
+│   ├── SKILL-002_experiment.md
+│   ├── SKILL-003_benchmark.md
+│   └── SKILL-004_round-trip.md
+├── _prompts/              # Slash Command Prompts
+│   ├── PROMPT_survey.md
+│   ├── PROMPT_experiment.md
+│   ├── PROMPT_benchmark.md
+│   └── PROMPT_roundtrip.md
 ├── docs/                  # Obsidian vault
 │   ├── MOC_master.md      # 최상위 허브
 │   ├── survey/            # SRV-NNN 서베이 노트
@@ -82,6 +135,10 @@ binary-alchemy/
 ├── core/                  # Rust 코어 (Phase 4+)
 ├── benchmarks/            # 벤치마크
 ├── tools/                 # Python 유틸리티
+│   ├── model_runner.py    # 모델 통합 추론 래퍼
+│   ├── compile_chain.py   # C/ASM→바이너리 체인
+│   ├── eval_metrics.py    # 평가 메트릭
+│   └── render_view.py     # 다단계 렌더링 뷰
 ├── pyproject.toml
 └── .gitignore
 ```
