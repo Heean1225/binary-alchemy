@@ -1,0 +1,34 @@
+[project]
+name = "binary-alchemy"
+version = "0.1.0"
+description = "AI-powered binary generation and rendering research"
+requires-python = ">=3.11"
+
+dependencies = [
+    "torch>=2.0",
+    "transformers>=4.40",
+    "anthropic>=0.40",
+    "rich>=13.0",          # CLI 출력 포매팅
+    "click>=8.0",          # CLI 프레임워크
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.4",
+    "ipython>=8.0",
+]
+eval = [
+    "sacrebleu>=2.0",      # BLEU 메트릭
+    "codebleu>=0.7",       # CodeBLEU 메트릭
+    "matplotlib>=3.8",     # 시각화
+    "pandas>=2.0",         # 데이터 분석
+]
+
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"

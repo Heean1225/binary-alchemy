@@ -1,0 +1,58 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+.venv/
+venv/
+env/
+
+# Rust
+/target/
+core/target/
+**/*.rs.bk
+Cargo.lock
+
+# PyTorch / ML models
+*.pt
+*.pth
+*.bin
+*.safetensors
+*.gguf
+*.onnx
+models/
+
+# HuggingFace cache
+.cache/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Benchmarks (large files)
+benchmarks/datasets/*.json
+benchmarks/datasets/*.csv
+benchmarks/datasets/*.tar.gz
+
+# Compiled binaries (experiment outputs)
+experiments/**/*.elf
+experiments/**/*.o
+experiments/**/*.out
+
+# Secrets
+.env
+.env.local
